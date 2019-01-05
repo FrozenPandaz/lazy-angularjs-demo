@@ -1,0 +1,12 @@
+{
+  "extends": "../../tslint.json",
+  "rules": {
+    "directive-selector": [
+      true,
+      "attribute",
+      "lazy-angularjs-demo",
+      "camelCase"
+    ],
+    "component-selector": [true, "element", "lazy-angularjs-demo", "kebab-case"]
+  }
+}

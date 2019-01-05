@@ -1,0 +1,23 @@
+<h1>Lazy Laoded AngularJS Demo</h1>
+
+<a [routerLink]="['/']">Home</a><br />
+<a [routerLink]="['/hello']">Hello</a><br />
+<a [routerLink]="['/about']">About</a><br />
+
+<button (click)="onClick()">Menu</button><br />
+<button (click)="onModernClick()">ModernMenu</button><br />
+
+<lazy-load
+  *ngIf="menuOpen"
+  modulePath="./menu/menu.module#MenuModule"
+></lazy-load
+><br />
+<lazy-load
+  [modern]="true"
+  *ngIf="modernMenuOpen"
+  modulePath="./menu/menu.module#MenuModule"
+></lazy-load
+><br />
+
+<router-outlet></router-outlet>
+<div id="app"><ui-view></ui-view></div>

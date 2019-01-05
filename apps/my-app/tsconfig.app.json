@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc/apps/my-app",
+    "types": []
+  },
+  "exclude": ["src/test-setup.ts", "**/*.spec.ts"],
+  "include": [
+    "../../libs/bootstrap-angularjs-app/src/index.ts",
+    "src/app/menu/menu.module.ts",
+    "**/*.ts"
+  ]
+}

@@ -7,5 +7,24 @@
     "tslint.json": "*",
     "nx.json": "*"
   },
-  "projects": {}
+  "projects": {
+    "my-app": {
+      "tags": []
+    },
+    "my-app-e2e": {
+      "tags": []
+    },
+    "details": {
+      "tags": []
+    },
+    "bootstrap-angularjs-app": {
+      "tags": []
+    },
+    "empty-component": {
+      "tags": []
+    },
+    "lazy-component": {
+      "tags": []
+    }
+  }
 }

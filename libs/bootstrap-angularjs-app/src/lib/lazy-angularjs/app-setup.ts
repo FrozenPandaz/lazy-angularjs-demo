@@ -1,4 +1,4 @@
-import { Injector } from '@angular/core';
+import { Injector, Type } from '@angular/core';
 import { setAngularJSGlobal, UpgradeModule } from '@angular/upgrade/static';
 
 import { setUpLocationSync } from '@angular/router/upgrade';
@@ -8,11 +8,13 @@ import * as angular from 'angular'; // replace with const angular = (<any>window
 import '@uirouter/angular-hybrid';
 
 import '@lazy-angularjs-demo/details'; // import your application files here.
+import {
+  DowngradeInjectable,
+  DowngradeComponent,
+  AngularJsInjectableDef,
+  AngularJsComponentDef
+} from '@lazy-angularjs-demo/downgrade';
 
-// all components downgraded from Angular to AngularJS go here
-angular.module('downgraded', []);
-
-// all components upgraded from AngularJS to Angular go here
 export const upgradedComponents = [];
 
 // additional configuration invoked right before bootstrap
@@ -20,6 +22,23 @@ export function bootstrapAngularJSApp(upgrade: UpgradeModule) {
   if (angular.element(document.getElementById('app')).scope()) {
     return;
   }
+  const module = angular.module('downgraded', []);
+  const downgradeInjectables: AngularJsInjectableDef[] = upgrade.injector.get<
+    AngularJsInjectableDef[]
+  >(DowngradeInjectable);
+  const downgradeComponents: AngularJsComponentDef[] = upgrade.injector.get<
+    AngularJsComponentDef[]
+  >(DowngradeComponent);
+
+  console.log(downgradeInjectables, downgradeComponents);
+  downgradeInjectables.forEach(injectableDef => {
+    module.factory(injectableDef.key, injectableDef.injectable);
+  });
+
+  downgradeComponents.forEach(componentDef => {
+    module.directive(componentDef.key, componentDef.component);
+  });
+
   setAngularJSGlobal(angular);
   //  Insert additional configuration here
   angular.module('downgraded').run(() => {

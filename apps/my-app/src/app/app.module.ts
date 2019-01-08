@@ -7,10 +7,21 @@ import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 
 import { LazyComponentModule } from '@lazy-angularjs-demo/lazy-component';
-import { UpgradeModule } from '@angular/upgrade/static';
+import {
+  UpgradeModule,
+  downgradeInjectable,
+  downgradeComponent
+} from '@angular/upgrade/static';
+import { NameService } from './name/name.service';
+import {
+  DowngradeInjectable,
+  DowngradeComponent
+} from '@lazy-angularjs-demo/downgrade';
+import { NameComponent } from './name/name.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [AppComponent, HomeComponent, NameComponent],
+  entryComponents: [NameComponent],
   imports: [
     BrowserModule,
     NxModule.forRoot(),
@@ -19,6 +30,10 @@ import { UpgradeModule } from '@angular/upgrade/static';
         {
           path: '',
           component: HomeComponent
+        },
+        {
+          path: 'lazy',
+          loadChildren: './lazy/lazy.module#LazyModule'
         },
         {
           path: '_dummy-menu',
@@ -35,7 +50,27 @@ import { UpgradeModule } from '@angular/upgrade/static';
     LazyComponentModule,
     UpgradeModule
   ],
-  providers: [],
+  providers: [
+    NameService,
+    {
+      provide: DowngradeInjectable,
+      useValue: {
+        key: 'nameService',
+        injectable: downgradeInjectable(NameService)
+      },
+      multi: true
+    },
+    {
+      provide: DowngradeComponent,
+      useValue: {
+        key: 'name',
+        component: downgradeComponent({
+          component: NameComponent
+        })
+      },
+      multi: true
+    }
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })

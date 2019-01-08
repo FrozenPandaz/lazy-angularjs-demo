@@ -1,5 +1,9 @@
 class DetailsComponent implements ng.IComponentController {
   public name = 'World';
+  public static $inject: string[] = ['nameService'];
+  constructor(private nameService: any) {
+    console.log(nameService);
+  }
 }
 
 angular
@@ -14,12 +18,12 @@ angular
     $stateProvider.state({
       name: 'hello',
       url: '/hello',
-      template: '<h3>Hello AngularJS Route!</h3>'
+      template: '<h3>Hello AngularJS Route!</h3><my-details></my-details>'
     });
     $stateProvider.state({
       name: 'about',
       url: '/about',
-      template: '<h3>About AngularJS Route!</h3>'
+      template: '<h3>About AngularJS Route!</h3><name></name>'
     });
     $stateProvider.state({
       name: 'empty',

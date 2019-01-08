@@ -233,6 +233,36 @@
           "styleext": "scss"
         }
       }
+    },
+    "downgrade": {
+      "root": "libs/downgrade",
+      "sourceRoot": "libs/downgrade/src",
+      "projectType": "library",
+      "prefix": "lazy-angularjs-demo",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/downgrade/tsconfig.lib.json",
+              "libs/downgrade/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/downgrade/jest.config.js",
+            "tsConfig": "libs/downgrade/tsconfig.spec.json"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/schematics:component": {
+          "styleext": "scss"
+        }
+      }
     }
   },
   "cli": {

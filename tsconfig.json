@@ -21,7 +21,8 @@
       ],
       "@lazy-angularjs-demo/lazy-component": [
         "libs/lazy-component/src/index.ts"
-      ]
+      ],
+      "@lazy-angularjs-demo/downgrade": ["libs/downgrade/src/index.ts"]
     },
     "module": "esnext"
   },

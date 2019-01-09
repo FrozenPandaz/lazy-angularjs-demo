@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   menuOpen = false;
   modernMenuOpen = false;
+  modernLazyOpen = false;
 
   onClick() {
     this.menuOpen = !this.menuOpen;
@@ -15,5 +16,9 @@ export class AppComponent {
 
   onModernClick() {
     this.modernMenuOpen = !this.modernMenuOpen;
+  }
+
+  onLazyClick() {
+    this.modernLazyOpen = !this.modernLazyOpen;
   }
 }

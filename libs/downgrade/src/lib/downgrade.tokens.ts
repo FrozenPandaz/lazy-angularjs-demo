@@ -13,3 +13,14 @@ export const DowngradeInjectable = new InjectionToken<AngularJsInjectableDef>(
 export const DowngradeComponent = new InjectionToken<AngularJsComponentDef>(
   'DowngradeComponent'
 );
+
+export function provideDowngradeComponent(name: string, component: any) {
+  return {
+    provide: DowngradeComponent,
+    useValue: {
+      key: name,
+      component
+    },
+    multi: true
+  };
+}

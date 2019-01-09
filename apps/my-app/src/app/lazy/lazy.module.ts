@@ -1,7 +1,11 @@
 import { NgModule, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { DowngradeComponent } from '@lazy-angularjs-demo/downgrade';
+import {
+  DowngradeComponent,
+  provideDowngradeComponent
+} from '@lazy-angularjs-demo/downgrade';
+import { downgradeComponent } from '@angular/upgrade/static';
 
 @Component({
   selector: 'lazy',
@@ -11,6 +15,7 @@ export class LazyComponent {}
 
 @NgModule({
   declarations: [LazyComponent],
+  entryComponents: [LazyComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
@@ -19,6 +24,16 @@ export class LazyComponent {}
         component: LazyComponent
       }
     ])
+  ],
+  providers: [
+    provideDowngradeComponent(
+      'lazy',
+      downgradeComponent({
+        component: LazyComponent
+      })
+    )
   ]
 })
-export class LazyModule {}
+export class LazyModule {
+  public static entry = LazyComponent;
+}

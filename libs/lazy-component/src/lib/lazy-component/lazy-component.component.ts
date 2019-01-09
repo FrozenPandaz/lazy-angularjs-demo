@@ -38,6 +38,8 @@ export class LazyComponent implements OnInit {
 
   @Input() modern: boolean;
 
+  @Input() needsDowngrade: boolean;
+
   /** arguments for the lazy loaded component */
   @Input() inputArgs: { [key: string]: any };
 
@@ -61,6 +63,13 @@ export class LazyComponent implements OnInit {
 
     // Create the lazy feature module
     const moduleRef = moduleFactory.create(this.injector);
+
+    if (!this.modern && this.needsDowngrade) {
+      const {
+        lazyLoadToAngularJS
+      } = await import('@lazy-angularjs-demo/bootstrap-angularjs-app');
+      lazyLoadToAngularJS(this.modulePath, moduleRef.injector);
+    }
 
     let entryComponent: Type<any> = (moduleFactory.moduleType as any).entry;
     const compFactory = moduleRef.componentFactoryResolver.resolveComponentFactory(

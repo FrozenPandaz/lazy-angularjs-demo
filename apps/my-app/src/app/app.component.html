@@ -7,6 +7,7 @@
 
 <button (click)="onClick()">Menu</button><br />
 <button (click)="onModernClick()">ModernMenu</button><br />
+<button (click)="onLazyClick()">LazyModule</button><br />
 
 <lazy-load
   *ngIf="menuOpen"
@@ -19,6 +20,11 @@
   modulePath="./menu/menu.module#MenuModule"
 ></lazy-load
 ><br />
+<lazy-load
+  [needsDowngrade]="true"
+  *ngIf="modernLazyOpen"
+  modulePath="./lazy/lazy.module#LazyModule"
+></lazy-load>
 
 <router-outlet></router-outlet>
 <div id="app"><ui-view></ui-view></div>

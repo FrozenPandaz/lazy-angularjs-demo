@@ -15,7 +15,8 @@ import {
 import { NameService } from './name/name.service';
 import {
   DowngradeInjectable,
-  DowngradeComponent
+  DowngradeComponent,
+  provideDowngradeComponent
 } from '@lazy-angularjs-demo/downgrade';
 import { NameComponent } from './name/name.component';
 
@@ -57,16 +58,6 @@ import { NameComponent } from './name/name.component';
       useValue: {
         key: 'nameService',
         injectable: downgradeInjectable(NameService)
-      },
-      multi: true
-    },
-    {
-      provide: DowngradeComponent,
-      useValue: {
-        key: 'name',
-        component: downgradeComponent({
-          component: NameComponent
-        })
       },
       multi: true
     }

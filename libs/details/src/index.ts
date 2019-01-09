@@ -7,7 +7,7 @@ class DetailsComponent implements ng.IComponentController {
 }
 
 angular
-  .module('my-app', ['ui.router', 'ui.router.upgrade'])
+  .module('my-app', ['oc.lazyLoad', 'ui.router', 'ui.router.upgrade'])
   .component('myDetails', {
     template: `AngularJS Details: Hello {{$ctrl.name}}`,
     controller: DetailsComponent,

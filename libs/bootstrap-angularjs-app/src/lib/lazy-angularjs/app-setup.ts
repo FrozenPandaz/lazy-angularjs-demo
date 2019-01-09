@@ -6,7 +6,7 @@ import { setUpLocationSync } from '@angular/router/upgrade';
 import * as angular from 'angular'; // replace with const angular = (<any>window).angular; if Angular is available globally
 
 import '@uirouter/angular-hybrid';
-
+import 'oclazyload';
 import '@lazy-angularjs-demo/details'; // import your application files here.
 import {
   DowngradeInjectable,
@@ -23,13 +23,44 @@ export function bootstrapAngularJSApp(upgrade: UpgradeModule) {
     return;
   }
   const module = angular.module('downgraded', []);
-  const downgradeInjectables: AngularJsInjectableDef[] = upgrade.injector.get<
-    AngularJsInjectableDef[]
-  >(DowngradeInjectable);
-  const downgradeComponents: AngularJsComponentDef[] = upgrade.injector.get<
-    AngularJsComponentDef[]
-  >(DowngradeComponent);
+  addDowngradedModulesToAngularJSModule(upgrade.injector, module);
+  setAngularJSGlobal(angular);
+  //  Insert additional configuration here
+  angular.module('downgraded').run(() => {
+    setUpLocationSync(upgrade.injector.get(UpgradeModule));
+  });
+  upgrade.bootstrap(document.getElementById('app'), [
+    'downgraded',
+    'my-app',
+    'oc.lazyLoad'
+  ]);
+  const text = document.createElement('p');
+  text.innerText = 'AngularJS Bootstrapped';
+  document.body.appendChild(text);
+}
 
+export function lazyLoadToAngularJS(moduleName: string, injector: Injector) {
+  const ocLazyLoad = angular
+    .element(document.getElementById('app'))
+    .injector()
+    .get<any>('$ocLazyLoad');
+
+  const module = angular.module(moduleName, []);
+  addDowngradedModulesToAngularJSModule(injector, module);
+  console.log('ocLazyLoad.injecting', moduleName);
+  ocLazyLoad.inject(moduleName);
+}
+
+function addDowngradedModulesToAngularJSModule(
+  injector: Injector,
+  module: ng.IModule
+) {
+  const downgradeInjectables: AngularJsInjectableDef[] = injector.get<
+    AngularJsInjectableDef[]
+  >(DowngradeInjectable, []);
+  const downgradeComponents: AngularJsComponentDef[] = injector.get<
+    AngularJsComponentDef[]
+  >(DowngradeComponent, []);
   console.log(downgradeInjectables, downgradeComponents);
   downgradeInjectables.forEach(injectableDef => {
     module.factory(injectableDef.key, injectableDef.injectable);
@@ -38,14 +69,4 @@ export function bootstrapAngularJSApp(upgrade: UpgradeModule) {
   downgradeComponents.forEach(componentDef => {
     module.directive(componentDef.key, componentDef.component);
   });
-
-  setAngularJSGlobal(angular);
-  //  Insert additional configuration here
-  angular.module('downgraded').run(() => {
-    setUpLocationSync(upgrade.injector.get(UpgradeModule));
-  });
-  upgrade.bootstrap(document.getElementById('app'), ['downgraded', 'my-app']);
-  const text = document.createElement('p');
-  text.innerText = 'AngularJS Bootstrapped';
-  document.body.appendChild(text);
 }
